@@ -15,7 +15,4 @@ public enum OrderStatus {
     CANCELED("Canceled");
 
     public final String value;
-
-
-
 }
