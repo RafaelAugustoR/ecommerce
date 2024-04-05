@@ -2,6 +2,7 @@ package com.rafaelaugusto.ecommerce.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.w3c.dom.Text;
@@ -14,6 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Product {
 
     @Id
