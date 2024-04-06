@@ -1,11 +1,12 @@
 package com.rafaelaugusto.ecommerce.domain.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.w3c.dom.Text;
+import org.hibernate.validator.constraints.Length;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,14 +23,22 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Length(min = 5, max = 100)
     @Column(nullable = false, unique = true)
     private String name;
 
+
+    @NotNull
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
+
+    @NotNull
     private String imgUrl;
 
+
+    @NotNull
     private Double price;
 
     @ManyToMany
