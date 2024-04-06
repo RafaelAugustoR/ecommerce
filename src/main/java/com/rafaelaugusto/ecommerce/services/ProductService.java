@@ -31,4 +31,10 @@ public class ProductService {
             throw new RuntimeException("Product not found for id: " + id);
         }
     }
+
+    @Transactional(readOnly = true)
+    public List<ProductResponseDTO> findAll() {
+        List<Product> result = productRepository.findAll();
+        return result.stream().map(ProductResponseDTO::new).toList();
+    }
 }
