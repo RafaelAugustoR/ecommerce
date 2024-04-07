@@ -1,6 +1,7 @@
 package com.rafaelaugusto.ecommerce.services;
 
 import com.rafaelaugusto.ecommerce.domain.entities.Product;
+import com.rafaelaugusto.ecommerce.dtos.request.ProductRequestDTO;
 import com.rafaelaugusto.ecommerce.dtos.response.ProductResponseDTO;
 import com.rafaelaugusto.ecommerce.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,24 @@ public class ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    public ProductResponseDTO create(ProductRequestDTO request){
+        Product product = Product.builder()
+                .name(request.getName())
+                .description(request.getDescription())
+                .price(request.getPrice())
+                .imgUrl(request.getImgUrl())
+                .build();
+
+        Product savedProduct = productRepository.save(product);
+
+        return ProductResponseDTO.builder()
+                .name(savedProduct.getName())
+                .description(savedProduct.getDescription())
+                .price(savedProduct.getPrice())
+                .imgUrl(savedProduct.getImgUrl())
+                .build();
+    }
 
     @Transactional(readOnly = true)
     public ProductResponseDTO findById(Long id) {
