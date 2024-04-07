@@ -4,10 +4,11 @@ import com.rafaelaugusto.ecommerce.domain.entities.Product;
 import com.rafaelaugusto.ecommerce.dtos.response.ProductResponseDTO;
 import com.rafaelaugusto.ecommerce.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,8 +34,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProductResponseDTO> findAll() {
-        List<Product> result = productRepository.findAll();
-        return result.stream().map(ProductResponseDTO::new).toList();
+    public Page<ProductResponseDTO> findAll(Pageable pageable) {
+        Page<Product> result = productRepository.findAll(pageable);
+        return result.map(ProductResponseDTO::new);
     }
 }
