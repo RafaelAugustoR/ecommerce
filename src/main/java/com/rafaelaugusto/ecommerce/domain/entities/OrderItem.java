@@ -2,11 +2,10 @@ package com.rafaelaugusto.ecommerce.domain.entities;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity(name = "tb_order_items")
+@Entity(name = "tb_order_item")
 @Data
 @NoArgsConstructor
 public class OrderItem {
@@ -25,19 +24,19 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
-    public Order getOrder(){
+    public Order getOrder() {
         return id.getOrder();
     }
 
-    public void setOrder(Order order){
+    public void setOrder(Order order) {
         id.setOrder(order);
     }
 
-    public Product getProduct(){
+    public Product getProduct() {
         return id.getProduct();
     }
 
-    public void setProduct(Product product){
+    public void setProduct(Product product) {
         id.setProduct(product);
     }
 }

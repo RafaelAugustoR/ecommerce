@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "tb_orders")
+@Entity(name = "tb_order")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
