@@ -18,7 +18,8 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public ProductResponseDTO create(ProductRequestDTO request){
+    @Transactional
+    public ProductResponseDTO create(ProductRequestDTO request) {
         Product product = Product.builder()
                 .name(request.getName())
                 .description(request.getDescription())
@@ -34,6 +35,32 @@ public class ProductService {
                 .price(savedProduct.getPrice())
                 .imgUrl(savedProduct.getImgUrl())
                 .build();
+    }
+
+
+
+    @Transactional
+    public ProductResponseDTO update(Long id, ProductRequestDTO request) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found for id: " + id));
+
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setImgUrl(request.getImgUrl());
+
+        Product updatedProduct = productRepository.save(product);
+
+        return ProductResponseDTO.builder()
+                .name(updatedProduct.getName())
+                .description(updatedProduct.getDescription())
+                .price(updatedProduct.getPrice())
+                .imgUrl(updatedProduct.getImgUrl())
+                .build();
+    }
+
+    public void delete(Long id) {
+        productRepository.deleteById(id);
     }
 
     @Transactional(readOnly = true)
