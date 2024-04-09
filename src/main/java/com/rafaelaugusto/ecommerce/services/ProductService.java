@@ -38,7 +38,6 @@ public class ProductService {
     }
 
 
-
     @Transactional
     public ProductResponseDTO update(Long id, ProductRequestDTO request) {
         Product product = productRepository.findById(id)
@@ -65,18 +64,15 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductResponseDTO findById(Long id) {
-        Optional<Product> productOptional = productRepository.findById(id);
-        if (productOptional.isPresent()) {
-            Product product = productOptional.get();
-            return ProductResponseDTO.builder()
-                    .name(product.getName())
-                    .description(product.getDescription())
-                    .imgUrl(product.getImgUrl())
-                    .price(product.getPrice())
-                    .build();
-        } else {
-            throw new RuntimeException("Product not found for id: " + id);
-        }
+        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found for id: " + id));
+
+        return ProductResponseDTO.builder()
+                .name(product.getName())
+                .description(product.getDescription())
+                .imgUrl(product.getImgUrl())
+                .price(product.getPrice())
+                .build();
+
     }
 
     @Transactional(readOnly = true)
