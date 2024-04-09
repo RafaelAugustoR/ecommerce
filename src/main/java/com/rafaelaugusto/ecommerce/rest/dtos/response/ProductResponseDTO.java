@@ -1,4 +1,4 @@
-package com.rafaelaugusto.ecommerce.dtos.response;
+package com.rafaelaugusto.ecommerce.rest.dtos.response;
 
 import com.rafaelaugusto.ecommerce.domain.entities.Product;
 import lombok.AllArgsConstructor;

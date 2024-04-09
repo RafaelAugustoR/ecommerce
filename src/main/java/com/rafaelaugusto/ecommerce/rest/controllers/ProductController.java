@@ -1,7 +1,7 @@
-package com.rafaelaugusto.ecommerce.controllers;
+package com.rafaelaugusto.ecommerce.rest.controllers;
 
-import com.rafaelaugusto.ecommerce.dtos.request.ProductRequestDTO;
-import com.rafaelaugusto.ecommerce.dtos.response.ProductResponseDTO;
+import com.rafaelaugusto.ecommerce.rest.dtos.request.ProductRequestDTO;
+import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductResponseDTO;
 import com.rafaelaugusto.ecommerce.services.ProductService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;

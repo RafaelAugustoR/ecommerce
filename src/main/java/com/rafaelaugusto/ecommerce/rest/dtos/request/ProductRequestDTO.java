@@ -1,4 +1,4 @@
-package com.rafaelaugusto.ecommerce.dtos.request;
+package com.rafaelaugusto.ecommerce.rest.dtos.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
