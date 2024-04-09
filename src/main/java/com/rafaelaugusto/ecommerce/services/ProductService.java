@@ -1,16 +1,14 @@
 package com.rafaelaugusto.ecommerce.services;
 
 import com.rafaelaugusto.ecommerce.domain.entities.Product;
-import com.rafaelaugusto.ecommerce.dtos.request.ProductRequestDTO;
-import com.rafaelaugusto.ecommerce.dtos.response.ProductResponseDTO;
+import com.rafaelaugusto.ecommerce.rest.dtos.request.ProductRequestDTO;
+import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductResponseDTO;
 import com.rafaelaugusto.ecommerce.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -64,7 +62,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public ProductResponseDTO findById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new RuntimeException("Product not found for id: " + id));
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found for id: " + id));
 
         return ProductResponseDTO.builder()
                 .name(product.getName())
