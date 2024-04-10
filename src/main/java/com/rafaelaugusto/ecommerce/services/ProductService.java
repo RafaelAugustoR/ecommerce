@@ -1,20 +1,21 @@
 package com.rafaelaugusto.ecommerce.services;
 
 import com.rafaelaugusto.ecommerce.domain.entities.Product;
+import com.rafaelaugusto.ecommerce.exceptions.ResourceNotFoundException;
 import com.rafaelaugusto.ecommerce.rest.dtos.request.ProductRequestDTO;
 import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductResponseDTO;
 import com.rafaelaugusto.ecommerce.repositories.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     @Transactional
     public ProductResponseDTO create(ProductRequestDTO request) {
@@ -39,7 +40,7 @@ public class ProductService {
     @Transactional
     public ProductResponseDTO update(Long id, ProductRequestDTO request) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found for id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found for id: " + id));
 
         product.setName(request.getName());
         product.setDescription(request.getDescription());
@@ -63,7 +64,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductResponseDTO findById(Long id) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found for id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found for id: " + id));
 
         return ProductResponseDTO.builder()
                 .name(product.getName())
