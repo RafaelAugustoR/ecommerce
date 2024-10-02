@@ -30,19 +30,20 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable @NotNull @Positive Long id, @Valid @RequestBody ProductRequestDTO request) {
         var updatedProduct = productService.update(id, request);
         return ResponseEntity.ok(updatedProduct);
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_OPERATOR')")
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponseDTO> productById(@PathVariable @NotNull @Positive Long id) {
         var foundProduct = productService.findById(id);
         return ResponseEntity.ok(foundProduct);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable @NotNull @Positive Long id) {
         productService.delete(id);
