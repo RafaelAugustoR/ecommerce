@@ -1,11 +1,13 @@
 package com.rafaelaugusto.ecommerce.services;
 
+import com.rafaelaugusto.ecommerce.domain.entities.Category;
 import com.rafaelaugusto.ecommerce.domain.entities.Product;
 import com.rafaelaugusto.ecommerce.exceptions.ResourceNotFoundException;
+import com.rafaelaugusto.ecommerce.repositories.ProductRepository;
 import com.rafaelaugusto.ecommerce.rest.dtos.request.ProductRequestDTO;
+import com.rafaelaugusto.ecommerce.rest.dtos.response.CategoryResponseDTO;
 import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductMinDTO;
 import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductResponseDTO;
-import com.rafaelaugusto.ecommerce.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -80,5 +82,18 @@ public class ProductService {
     public Page<ProductMinDTO> findAll(Pageable pageable) {
         Page<Product> result = productRepository.findAll(pageable);
         return result.map(ProductMinDTO::new);
+    }
+
+    private void copyDtoToEntity(ProductResponseDTO dto, Product entity) {
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        entity.setImgUrl(dto.getImgUrl());
+        entity.getCategories().clear();
+        for (CategoryResponseDTO catDto : dto.getCategories()) {
+            Category cat = new Category();
+            cat.setId(catDto.getId());
+            entity.getCategories().add(cat);
+        }
     }
 }

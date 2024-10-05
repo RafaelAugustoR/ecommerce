@@ -1,7 +1,11 @@
 package com.rafaelaugusto.ecommerce.rest.dtos.response;
 
+import com.rafaelaugusto.ecommerce.domain.entities.Category;
 import com.rafaelaugusto.ecommerce.domain.entities.Product;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,7 +37,13 @@ public class ProductResponseDTO {
 
     private String imgUrl;
 
+    @NotBlank(message = "Deve ter pelo menos uma categoria")
+    private List<CategoryResponseDTO> categories = new ArrayList<>()
+;
     public ProductResponseDTO(Product entity) {
         BeanUtils.copyProperties(entity, this);
+        for (Category category : entity.getCategories()) {
+            categories.add(new CategoryResponseDTO(category));
+        }
     }
 }
