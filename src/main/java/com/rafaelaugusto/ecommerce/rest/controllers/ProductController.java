@@ -1,6 +1,7 @@
 package com.rafaelaugusto.ecommerce.rest.controllers;
 
 import com.rafaelaugusto.ecommerce.rest.dtos.request.ProductRequestDTO;
+import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductMinDTO;
 import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductResponseDTO;
 import com.rafaelaugusto.ecommerce.services.ProductService;
 import jakarta.validation.Valid;
@@ -52,7 +53,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponseDTO>> allProducts(Pageable pageable) {
+    public ResponseEntity<Page<ProductMinDTO>> allProducts(Pageable pageable) {
         var products = productService.findAll(pageable);
         return ResponseEntity.ok(products);
     }

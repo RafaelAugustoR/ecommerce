@@ -3,6 +3,7 @@ package com.rafaelaugusto.ecommerce.services;
 import com.rafaelaugusto.ecommerce.domain.entities.Product;
 import com.rafaelaugusto.ecommerce.exceptions.ResourceNotFoundException;
 import com.rafaelaugusto.ecommerce.rest.dtos.request.ProductRequestDTO;
+import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductMinDTO;
 import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductResponseDTO;
 import com.rafaelaugusto.ecommerce.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -76,8 +77,8 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductResponseDTO> findAll(Pageable pageable) {
+    public Page<ProductMinDTO> findAll(Pageable pageable) {
         Page<Product> result = productRepository.findAll(pageable);
-        return result.map(ProductResponseDTO::new);
+        return result.map(ProductMinDTO::new);
     }
 }
