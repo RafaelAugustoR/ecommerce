@@ -1,20 +1,22 @@
 package com.rafaelaugusto.ecommerce.rest.dtos.response;
 
-import com.rafaelaugusto.ecommerce.domain.entities.Category;
+import com.rafaelaugusto.ecommerce.domain.entities.Payment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryResponseDTO {
+public class PaymentResponseDTO {
 
     private Long id;
-    private String name;
+    private Instant moment;
 
-    public CategoryResponseDTO(Category entity) {
+    public PaymentResponseDTO(Payment entity) {
         id = entity.getId();
-        name = entity.getName();
+        moment = entity.getMoment();
     }
 }
