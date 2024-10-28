@@ -5,56 +5,57 @@ import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductMinDTO;
 import com.rafaelaugusto.ecommerce.rest.dtos.response.ProductResponseDTO;
 import com.rafaelaugusto.ecommerce.services.ProductService;
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@Validated
+import java.net.URI;
+
 @RestController
-@RequestMapping("/products")
-@RequiredArgsConstructor
+@RequestMapping(value = "/products")
 public class ProductController {
 
-    private final ProductService productService;
+    @Autowired
+    private ProductService service;
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PostMapping("/create")
-    public ResponseEntity<ProductResponseDTO> createProduct(@Valid @RequestBody ProductRequestDTO request) {
-        ProductResponseDTO createdProduct = productService.create(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable @NotNull @Positive Long id, @Valid @RequestBody ProductRequestDTO request) {
-        var updatedProduct = productService.update(id, request);
-        return ResponseEntity.ok(updatedProduct);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> productById(@PathVariable @NotNull @Positive Long id) {
-        var foundProduct = productService.findById(id);
-        return ResponseEntity.ok(foundProduct);
-    }
-
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable @NotNull @Positive Long id) {
-        productService.delete(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ProductResponseDTO> findById(@PathVariable Long id) {
+        ProductResponseDTO dto = service.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductMinDTO>> allProducts(Pageable pageable) {
-        var products = productService.findAll(pageable);
-        return ResponseEntity.ok(products);
+    public ResponseEntity<Page<ProductMinDTO>> findAll(
+            @RequestParam(name = "name", defaultValue = "") String name,
+            Pageable pageable) {
+        Page<ProductMinDTO> dto = service.findAll(name, pageable);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping
+    public ResponseEntity<ProductResponseDTO> insert(@Valid @RequestBody ProductResponseDTO dto) {
+        dto = service.insert(dto);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(dto.getId()).toUri();
+        return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProductResponseDTO> update(@PathVariable Long id, @Valid @RequestBody ProductResponseDTO dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok(dto);
+    }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

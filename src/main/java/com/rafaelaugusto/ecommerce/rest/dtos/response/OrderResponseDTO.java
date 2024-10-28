@@ -20,6 +20,7 @@ public class OrderResponseDTO {
 	private OrderStatus status;
 	private UserMinDTO user;
 	private PaymentResponseDTO payment;
+	private String imgUrl;
 	
 	@NotEmpty(message = "Deve ter pelo menos um item")
 	private List<OrderItemResponseDTO> items = new ArrayList<>();
@@ -30,6 +31,7 @@ public class OrderResponseDTO {
 		this.status = entity.getStatus();
 		this.user = new UserMinDTO(entity.getClient());
 		this.payment = (entity.getPayment() == null) ? null : new PaymentResponseDTO(entity.getPayment());
+		this.imgUrl = entity.getProducts().getFirst().getImgUrl();
 		for (OrderItem item : entity.getItems()) {
 			OrderItemResponseDTO itemDto = new OrderItemResponseDTO(item);
 			items.add(itemDto);

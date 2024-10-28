@@ -1,13 +1,9 @@
 package com.rafaelaugusto.ecommerce.exceptions;
 
+@SuppressWarnings("serial")
+public class ResourceNotFoundException extends RuntimeException {
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ResourceNotFoundException extends RuntimeException{
-
-    public ResourceNotFoundException(String msg){
+    public ResourceNotFoundException(String msg) {
         super(msg);
     }
 }

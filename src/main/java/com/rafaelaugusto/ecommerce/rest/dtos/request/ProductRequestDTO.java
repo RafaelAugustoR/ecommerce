@@ -1,12 +1,19 @@
 package com.rafaelaugusto.ecommerce.rest.dtos.request;
 
+import com.rafaelaugusto.ecommerce.domain.entities.Category;
+import com.rafaelaugusto.ecommerce.domain.entities.Product;
+import com.rafaelaugusto.ecommerce.rest.dtos.response.CategoryResponseDTO;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,4 +34,17 @@ public class ProductRequestDTO {
 
     @Positive(message = "price needs to be positive")
     private Double price;
+
+    @NotEmpty(message = "Deve ter pelo menos uma categoria")
+    private List<CategoryResponseDTO> categories = new ArrayList<>();
+
+    public ProductRequestDTO(Product entity) {
+        name = entity.getName();
+        description = entity.getDescription();
+        price = entity.getPrice();
+        imgUrl = entity.getImgUrl();
+        for (Category cat : entity.getCategories()) {
+            categories.add(new CategoryResponseDTO(cat));
+        }
+    }
 }

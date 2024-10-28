@@ -1,7 +1,6 @@
 package com.rafaelaugusto.ecommerce.rest.controllers;
 
 import com.rafaelaugusto.ecommerce.rest.dtos.response.OrderResponseDTO;
-import com.rafaelaugusto.ecommerce.services.OrderService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +15,7 @@ import java.net.URI;
 public class OrderController {
 
     @Autowired
-    private OrderService service;
+    private com.rafaelaugusto.ecommerce.services.OrderService service;
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLIENT')")
     @GetMapping(value = "/{id}")
